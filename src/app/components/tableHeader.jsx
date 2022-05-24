@@ -12,6 +12,17 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             onSort({ path: item, order: "asc" });
         }
     };
+    const iconSort = (selectedSort, item) => {
+        if (selectedSort.path === item) {
+            return (
+                <i
+                    className={
+                        `bi bi-caret-${selectedSort.order === "asc" ? "up" : "down"}-fill`}
+                ></i>
+            );
+        }
+        return null;
+    };
     return (
         <thead>
             <tr>
@@ -26,26 +37,10 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         {...{ role: columns[column].iter && "button" }}
                         scope="col"
                     >
-                        {columns[column].path}
+                        {columns[column].name}{""}
+                        {iconSort(selectedSort, columns[column].path)}
                     </th>
                 ))}
-
-                {/*             { <th scope="col">
-               Качества
-            </th>
-            <th onClick={() => handleSort("profession.name")} scope="col">
-               Профессия
-            </th>
-            <th onClick={() => handleSort("completedMeetings")} scope="col">
-               Встретился, раз
-            </th>
-            <th onClick={() => handleSort("rate")} scope="col">
-               Оценка
-            </th>
-            <th onClick={() => handleSort("bookmark")} scope="col">
-               Избранное
-            </th>
-               <th />} */}
             </tr>
         </thead>
     );
