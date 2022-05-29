@@ -25,7 +25,7 @@ const UserPage = ({ userId }) => {
             </div>
         );
     } else {
-        return <h1>Loading...</h1>;
+        return <h1>Loading</h1>;
     }
 };
 
