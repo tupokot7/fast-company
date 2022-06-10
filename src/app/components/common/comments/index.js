@@ -1,4 +1,4 @@
-import CommentList from "./commentsList";
+import CommentsList from "./commentsList";
 import AddCommentForm from "./addCommentForm";
-export default CommentList;
+export default CommentsList;
 export { AddCommentForm };

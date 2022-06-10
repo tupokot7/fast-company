@@ -6,7 +6,7 @@ import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
-import BackHistortButton from "../../common/backButton";
+import BackHistoryButton from "../../common/backButton";
 
 const EditUserPage = () => {
     const { userId } = useParams();
@@ -67,16 +67,14 @@ const EditUserPage = () => {
     };
     useEffect(() => {
         setIsLoading(true);
-        api.users
-            .getById(userId)
-            .then((data) =>
-                setData({
-                    ...data,
-                    qualities: transformData(data.qualities),
-                    profession: data.profession._id
-                })
-            )
-            .finally(() => setIsLoading(false));
+        api.users.getById(userId).then(({ profession, qualities, ...data }) =>
+            setData((prevState) => ({
+                ...prevState,
+                ...data,
+                qualities: transformData(qualities),
+                profession: profession._id
+            }))
+        );
         api.professions.fetchAll().then((data) => {
             const professionsList = Object.keys(data).map((professionName) => ({
                 label: data[professionName].name,
@@ -93,6 +91,9 @@ const EditUserPage = () => {
             setQualities(qualitiesList);
         });
     }, []);
+    useEffect(() => {
+        if (data._id) setIsLoading(false);
+    }, [data]);
 
     const validatorConfig = {
         email: {
@@ -126,7 +127,7 @@ const EditUserPage = () => {
     const isValid = Object.keys(errors).length === 0;
     return (
         <div className="container mt-5">
-            <BackHistortButton />
+            <BackHistoryButton />
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     {!isLoading && Object.keys(professions).length > 0 ? (
