@@ -120,6 +120,16 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
         }
     }
+    async function updateUser() {
+        try {
+            const { content } = await userService.updateCurrentUser();
+            setUser(content);
+        } catch (error) {
+            errorCatcher(error);
+        } finally {
+            setLoading(false);
+        }
+    }
     useEffect(() => {
         if (localStorageService.getAccessToken()) {
             getUserData();
@@ -134,7 +144,7 @@ const AuthProvider = ({ children }) => {
         }
     }, [error]);
     return (
-        <AuthContext.Provider value={{ signUp, logIn, currentUser, logOut }}>
+        <AuthContext.Provider value={{ signUp, logIn, currentUser, logOut, updateUser }}>
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
     );
